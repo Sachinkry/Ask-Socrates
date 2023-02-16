@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-red-300 max-w-800 mx-auto">
+    <div className="min-h-screen  max-w-800 mx-auto border-1 drop-shadow-lg">
     <Head>
       <title>My Chatbot App</title>
       <link rel="icon" href="/favicon.ico" />

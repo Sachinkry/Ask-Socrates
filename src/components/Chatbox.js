@@ -1,8 +1,18 @@
 import React, { useState } from 'react' 
-import addToChatbox2 from '@/functions/addToChatbox'
+import {addToChat} from '@/functions/addToChatbox'
+import {addUserChat, addBotChat} from '@/functions/addToChatbox'
+import generateText from '@/functions/generate-text'
 
 export default function Chatbox() {
+  
     const [userMessage, setUserMessage] = useState('')
+    const [botMessage, setBotMessage] = useState('')
+
+    const textToSpeech = async (text) => {
+      say.speak('Hello, I am Socrates. I am here to help you learn more about our products.')
+
+      say.stop()
+    }
 
     // take the message from input and set it to userMessage
     const handleInputChange = (e) => {
@@ -11,41 +21,27 @@ export default function Chatbox() {
 
 
     // print the message from input into chatbox
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         // add the value to chatbox
-        addToChatbox2(userMessage)
+        addUserChat(userMessage)
+        textToSpeech(userMessage)
+        const botMsg = await generateText(userMessage)
+        addBotChat(botMsg)
         // clear the input
         setUserMessage('')
     }
 
-    // add the value of userMessage to the chatbox
-    // const addToChatbox = (userMessage) => {
-    //     // create a new div
-    //     const newDiv = document.createElement('div')
-    //     // add a class to the new div
-    //     newDiv.classList.add("bg-blue-500",  "text-white", "rounded-lg", "p-3", "max-w-max", "break-words", "mb-1")
-    //     // add the new div to the chatbox
-    //     const userChats = document.getElementById('userChats')
-    //     userChats.appendChild(newDiv)
-    //     // create a p tag insdie the newDiv
-    //     const pTag = document.createElement('p')
-    //     // add the userMessage to the p tag
-    //     pTag.textContent = userMessage
-    //     // add p to newDiv
-    //     newDiv.appendChild(pTag)
-    // }
-
     return (
         <div className="flex flex-col w-600 bg-white   rounded-lg overflow-hidden">
-            <div className="flex-1  px-4 py-6" id='chatbox'>
-              <div className="flex flex-col items-start mb-4" id='botChats'>
-                <div className="bg-gray-200 rounded-lg p-3 max-w-max break-words">
-                  <p>Hello, how can I help you today?</p>
+            <div className="flex-1  md:px-4 py-6 px-3 " id='chatbox'>
+              <div className="flex flex-col items-start mb-4" >
+                <div className="bg-gray-200 rounded-lg p-3  break-words  w-5/6 md:w-2/3 ">
+                  <p>As a bot designed to emulate the wise and questioning style of Socrates, I seek to engage in a conversation that will help us both to think more deeply about the world around us. Whether your question concerns the nature of reality, the meaning of life, or the latest developments in technology, I am here to help guide our exploration through the power of dialogue.</p>
                 </div>
               </div>
-              <div className="flex flex-col items-end mb-1" id='userChats'>
-                <div className="bg-blue-500 text-white rounded-lg p-3 max-w-max break-words mb-1">
+              <div className="flex flex-col items-end mb-4" id='userChats'>
+                <div className="bg-blue-600 text-white rounded-lg p-3 max-w-max break-words md:w-2/3 w-5/6">
                   <p>Hi, I'm looking for information about your product offerings.</p>
                 </div>
               </div>
